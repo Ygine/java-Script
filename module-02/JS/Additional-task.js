@@ -18,4 +18,4 @@ do {
     }
     alert(`Неверный пароль, у вас осталось ${attempts} попыток`);
   }
-} while (enterPassword !== null && attempts !== 0);
+} while (attempts !== 0);
