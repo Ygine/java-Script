@@ -112,16 +112,34 @@
 
 //TASK 8
 
-// const removeFromArray = function(arr) {
-//   const newArr = [];
-//   const newArg = Array.from(arguments);
+//const removeFromArray = function(arr, ...arg) {
+//1 вариант
+// const newArr = [];
+// const newArg = Array.from(arguments);
+// for (let i = 0; i < arr.length; i += 1) {
+//   if (newArg.includes(arr[i]) === false) {
+//     newArr.push(arr[i]);
+//   }
+// }
+// return newArr;
 
-//   for (let i = 0; i < arr.length; i += 1) {
-//     if (newArg.includes(arr[i]) === false) {
-//       newArr.push(arr[i]);
+//2 вариант
+// for (let i = 0; i < arr.length; i += 1) {
+//   if (arr.includes(arg[i])) {
+//     arr.splice(arr.indexOf(arg[i]), 1);
+//   }
+// }
+// return arr;
+
+//3 вариант
+//   for (let i = 0; i < arg.length; i += 1) {
+//     for (let k = 0; k < arr.length; k += 1) {
+//       if (arg[i] === arr[k]) {
+//         arr.splice(k, 1);
+//       }
 //     }
 //   }
-//   return newArr;
+//   return arr;
 // };
 
 // console.log(removeFromArray([1, 2, 3, 4, 5], 2, 4));
