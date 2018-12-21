@@ -112,7 +112,7 @@
 
 //TASK 8
 
-//const removeFromArray = function(arr, ...arg) {
+// const removeFromArray = function(arr) {
 //1 вариант
 // const newArr = [];
 // const newArg = Array.from(arguments);
@@ -140,6 +140,15 @@
 //     }
 //   }
 //   return arr;
+
+//4
+//   const newArray = arguments[0];
+//   for (let i = 1; i < arguments.length; i += 1) {
+//     if (newArray.includes(arguments[i])) {
+//       newArray.splice(newArray.indexOf(arguments[i]), 1);
+//     }
+//   }
+//   return newArray;
 // };
 
 // console.log(removeFromArray([1, 2, 3, 4, 5], 2, 4));
