@@ -30,12 +30,10 @@ const cashier = {
   },
 
   needPlasticBag() {
-    setTimeout(() => {
-      const answertToTheBagQuestion = confirm('пакетик нужен?');
-      if (answertToTheBagQuestion) {
-        order.PlasticBag = 1;
-      }
-    }, 3000);
+    const answertToTheBagQuestion = confirm('пакетик нужен?');
+    if (answertToTheBagQuestion) {
+      order.PlasticBag = 1;
+    }
   },
 
   KasirPunchesGoods() {
@@ -104,6 +102,6 @@ cashier.KasirPunchesGoods();
 
 cashier.countTotalPrice(products, order);
 
-cashier.getCustomerMoney(10);
+cashier.getCustomerMoney(130);
 
 cashier.countChange();
