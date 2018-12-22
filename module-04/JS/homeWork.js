@@ -25,18 +25,20 @@ const cashier = {
   lacksMoney: 0,
 
   greet() {
-    alert(`Добрый день, вас обслуживает ${cashier.name}`);
+    console.log(`Добрый день, вас обслуживает ${cashier.name}`);
+    console.log(`Пробивает...`);
   },
 
   needPlasticBag() {
-    const answertToTheBagQuestion = confirm('пакетик нужен?');
-    if (answertToTheBagQuestion) {
-      order.PlasticBag = 1;
-    }
+    setTimeout(() => {
+      const answertToTheBagQuestion = confirm('пакетик нужен?');
+      if (answertToTheBagQuestion) {
+        order.PlasticBag = 1;
+      }
+    }, 3000);
   },
 
   KasirPunchesGoods() {
-    console.log(`Пробивает...`);
     const products = Object.keys(order);
     let b = 1500;
     products.map(elem =>
@@ -60,7 +62,7 @@ const cashier = {
     }
     setTimeout(() => {
       console.log(`С вас ${cashier.totalPrice}грн`);
-    }, 11000);
+    }, 10000);
   },
 
   countChange() {
@@ -102,6 +104,6 @@ cashier.KasirPunchesGoods();
 
 cashier.countTotalPrice(products, order);
 
-cashier.getCustomerMoney(300);
+cashier.getCustomerMoney(10);
 
 cashier.countChange();
