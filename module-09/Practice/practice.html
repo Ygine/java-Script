@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      /* ///////// TASK 7 ////////////////// */
+
+      .input.valid {
+        outline: 3px solid #4caf50;
+      }
+
+      .input.invalid {
+        outline: 3px solid #f44336;
+      }
+
+      /* ///////// TASK 9 ////////////////// */
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        text-align: center;
+        padding-top: 50px;
+      }
+
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(37, 45, 58, 0.7);
+      }
+
+      .modal-hidden {
+        display: none;
+      }
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 650px;
+        min-height: 380px;
+        padding: 50px 80px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 4px rgba(1, 2, 2, 0.2);
+        border-radius: 2px;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: inline-block;
+        width: 45px;
+        height: 45px;
+        background-image: url('https://image.flaticon.com/icons/png/512/64/64146.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        transition: transform 0.1s linear;
+      }
+
+      .close-btn:hover {
+        transform: rotate(90deg);
+      }
+
+      .modal-title {
+        margin-bottom: 15px;
+        color: #2a2a2a;
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 42px;
+        text-transform: uppercase;
+      }
+
+      .modal-text {
+        margin-bottom: 15px;
+        color: #676767;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 25px;
+        text-align: center;
+      }
+
+      .sub-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .sub-form-input {
+        display: inline-block;
+        margin-bottom: 15px;
+        border: none;
+        width: 360px;
+        height: 42px;
+        padding: 10px;
+        background-color: #e9e9e9;
+        font-family: inherit;
+        font-size: 14px;
+        color: #676767;
+      }
+
+      .sub-form-input:focus {
+        outline-color: #2a2a2a;
+      }
+
+      .sub-form-input::placeholder {
+        color: #ababab;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 25px;
+      }
+
+      .sub-form-btn {
+        border: none;
+        width: 115px;
+        height: 42px;
+        background-color: #2a2a2a;
+        border-radius: 3px;
+        box-shadow: 0 4px 10px rgba(1, 2, 2, 0.2);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 74px;
+        text-transform: uppercase;
+        line-height: 42px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      .btn {
+        border: none;
+        width: 115px;
+        height: 42px;
+        background-color: #2a2a2a;
+        border-radius: 3px;
+        box-shadow: 0 4px 10px rgba(1, 2, 2, 0.2);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 74px;
+        text-transform: uppercase;
+        line-height: 42px;
+        cursor: pointer;
+        font-family: inherit;
+        margin-bottom: 50px;
+      }
+      /* ///////// TASK 10 ////////////////// */
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        padding: 50px;
+        font-family: 'PT Sans', sans-serif;
+      }
+
+      .menu {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+      }
+
+      .menu-link {
+        display: block;
+        padding: 20px 25px;
+        font-size: 24px;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #212121;
+        transition: background-color 0.1s linear;
+      }
+
+      .menu-link.active {
+        background-color: #ff4081;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <button class="add-btn">Add Listener</button>
+  <button class="rem-btn">Remove listener</button>
+  <button class="btn">click</button>
+
+  <form class="main-form">
+    <section class="form-group">
+      <label for="form" class="label">Klick me</label>
+      <input id="form" type="text" class="form-input" placeholder="vallue" />
+      <button type="submit">submit</button>
+    </section>
+  </form> -->
+
+    <!-- ///////// TASK 1 ////////////////// -->
+    <!-- <button class="button">0</button> -->
+
+    <!-- ///////// TASK 2 ////////////////// -->
+    <!-- <div class="container">
+    <div class="expression">
+      <input type="text" placeholder="0" />
+      <span>+</span>
+      <input type="text" placeholder="0" />
+      <span>=</span>
+      <span class="result">0</span>
+    </div>
+
+    <button data-action="add">Сложить</button>
+  </div> -->
+
+    <!-- ///////// TASK 3 ////////////////// -->
+    <!-- <button class="btn" data-action="sub">-1</button>
+  <span class="value">0</span>
+  <button class="btn" data-action="add">+1</button> -->
+
+    <!-- ///////// TASK 4 ////////////////// -->
+    <!-- <form class="question-form">
+<div class="options">
+  <label>
+  <input type="radio" name="option" value="html">
+  HTML
+</label>
+  <label>
+  <input type="radio" name="option" value="css">
+  CSS
+</label>
+  <label>
+  <input type="radio" name="option" value="js">
+  JavaScript
+</label>
+  <label>
+  <input type="radio" name="option" value="php">
+  PHP
+</label>
+</div>
+
+<button class="btn" type="submit">Submit</button>
+</form>
+
+<p class="result">Result: </p> -->
+
+    <!-- ///////// TASK 5 ////////////////// -->
+
+    <!-- <ul class="images">
+    <li>
+      <img src="https://placeimg.com/320/240/animals" alt="animals">
+    </li>
+    <li>
+      <img src="https://placeimg.com/320/240/arch" alt="arch">
+    </li>
+    <li>
+      <img src="https://placeimg.com/320/240/nature" alt="nature">
+    </li>
+    <li>
+      <img src="https://placeimg.com/320/240/tech" alt="tech">
+    </li>
+  </ul> -->
+
+    <!-- ///////// TASK 6 ////////////////// -->
+
+    <!-- <ul class="list">
+    <li>
+      <button data-action="delete">Delete</button>
+      <span>HTML</span>
+    </li>
+    <li>
+      <button data-action="delete">Delete</button>
+      <span>CSS</span>
+    </li>
+    <li>
+      <button data-action="delete">Delete</button>
+      <span>JS</span>
+    </li>
+    <li>
+      <button data-action="delete">Delete</button>
+      <span>React</span>
+    </li>
+    <li>
+      <button data-action="delete">Delete</button>
+      <span>NodeJS</span>
+    </li>
+    <li>
+      <button data-action="delete">Delete</button>
+      <span>PHP</span>
+    </li>
+  </ul> -->
+
+    <!-- ///////// TASK 7 ////////////////// -->
+
+    <!-- <div class="input-list">
+    <input
+      type="text"
+      class="input"
+      data-length="2"
+      placeholder="2 символа"
+    />
+    <input
+      type="text"
+      class="input"
+      data-length="4"
+      placeholder="4 символа"
+    />
+    <input
+      type="text"
+      class="input"
+      data-length="8"
+      placeholder="8 символов"
+    />
+    <input
+      type="text"
+      class="input"
+      data-length="16"
+      placeholder="16 символов"
+    />
+  </div> -->
+
+    <!-- ///////// TASK 8 ////////////////// -->
+
+    <!-- <p class="message"></p>
+  <input class="input" type="text" />
+  <p class="input-value">Current input value:</p> -->
+
+    <!-- ///////// TASK 9 ////////////////// -->
+
+    <button class="btn" data-action="open-modal">Open Modal</button>
+
+    <div class="modal modal-hidden js-modal-backdrop">
+      <div class="modal-content">
+        <div class="close-btn" data-action="close-modal"></div>
+        <h2 class="modal-title">Newsletter</h2>
+        <p class="modal-text">
+          Subscribe to the Bachas mailing list to receive updates on new
+          arrivals, special offers and other discount information.
+        </p>
+        <form class="sub-form" action="#">
+          <input
+            class="sub-form-input"
+            type="text"
+            placeholder="Your Email Here"
+          />
+          <button class="sub-form-btn">subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ///////// TASK 10 ////////////////// -->
+
+    <ul class="menu js-menu">
+      <li class="menu-item">
+        <a href="#" class="menu-link active">home</a>
+      </li>
+      <li class="menu-item">
+        <a href="#" class="menu-link">about</a>
+      </li>
+      <li class="menu-item">
+        <a href="#" class="menu-link">contacts</a>
+      </li>
+      <li class="menu-item">
+        <a href="#" class="menu-link">team</a>
+      </li>
+      <li class="menu-item">
+        <a href="#" class="menu-link">career</a>
+      </li>
+    </ul>
+
+    <script src="js/practice.js"></script>
+  </body>
+</html>
