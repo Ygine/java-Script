@@ -112,8 +112,10 @@ class Notepad {
   }
 
   filterNotes(query) {
-    return this._notes.filter(item =>
-      item.body.toLowerCase().includes(query.toLowerCase()),
+    return this._notes.filter(
+      item =>
+        item.body.toLowerCase().includes(query.toLowerCase()) ||
+        item.title.toLowerCase().includes(query.toLowerCase()),
     );
 
     // for (const note of this.notes) {

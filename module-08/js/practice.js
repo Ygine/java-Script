@@ -210,41 +210,42 @@
     - Каждый следующий div после первого, должен быть шире и выше предыдущего
       на 10px
 */
-const root = document.querySelector('#root');
+// const root = document.querySelector('#root');
 
-const rgbaColor = function(alpha) {
-  const getRandomInt = function(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  };
+// const rgbaColor = function(alpha) {
+//   const getRandomInt = function(min, max) {
+//     return Math.floor(Math.random() * (max - min)) + min;
+//   };
 
-  const red = getRandomInt(0, 255);
-  const green = getRandomInt(0, 255);
-  const blue = getRandomInt(0, 255);
-  const alphaCanal = alpha;
-  const color = `rgba(${red}, ${green}, ${blue}, ${alphaCanal})`;
+//   const red = getRandomInt(0, 255);
+//   const green = getRandomInt(0, 255);
+//   const blue = getRandomInt(0, 255);
+//   const alphaCanal = alpha;
+//   const color = `rgba(${red}, ${green}, ${blue}, ${alphaCanal})`;
 
-  return color;
-};
+//   return color;
+// };
 
-const createBoxes = function(num) {
-  let box = [];
-  let size = 30;
+// const createBoxes = function(num) {
+//   let box = [];
+//   let size = 30;
 
-  const createDiv = function() {
-    const boxDiv = document.createElement('div');
-    boxDiv.style.width = size + 'px';
-    boxDiv.style.height = size + 'px';
-    boxDiv.style.backgroundColor = rgbaColor(0.7);
-    boxDiv.style.margin = '5px';
-    size += 10;
-    return boxDiv;
-  };
+//   const createDiv = function() {
+//     const boxDiv = document.createElement('div');
+//     boxDiv.style.width = size + 'px';
+//     boxDiv.style.height = size + 'px';
+//     boxDiv.style.backgroundColor = rgbaColor(0.7);
+//     boxDiv.style.margin = '5px';
+//     size += 10;
+//     return boxDiv;
+//   };
 
-  for (let i = 0; i < num; i += 1) {
-    box.push(createDiv());
-  }
+//   for (let i = 0; i < num; i += 1) {
+//     box.push(createDiv());
+//   }
 
-  return box;
-};
+//   return box;
+// };
 
-root.append(...createBoxes(5));
+// root.append(...createBoxes(5));
+
