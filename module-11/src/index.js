@@ -1,7 +1,7 @@
 import './sass/main.scss';
 import Notyf from 'notyf';
 import MicroModal from 'micromodal';
-import { PRIORITY_TYPES, ICON_TYPES, NOTE_ACTIONS } from './js/utils/constants';
+import { NOTIFICATION_MESSAGES, NOTE_ACTIONS } from './js/utils/constants';
 import initialNotes from './assets/notes.json';
 import Notepad from './js/notepad-module';
 import { getRefs } from './js/view';
@@ -11,14 +11,23 @@ import productTamplate from './templates/product.hbs';
 const refs = getRefs();
 
 const notepad = new Notepad(initialNotes);
-var notyf = new Notyf();
+const notyf = new Notyf();
+
+const newInitialNotes = [...initialNotes];
+const addPriorityName = Notes => {
+  return Notes.forEach(
+    item => (item.priority = Notepad.getPriorityName(item.priority)),
+  );
+};
+
+addPriorityName(newInitialNotes);
 
 const createNoteListProducts = products => {
   const marcup = products.map(item => productTamplate(item)).join('');
   return marcup;
 };
 
-refs.nodeList.innerHTML = createNoteListProducts(initialNotes);
+refs.nodeList.innerHTML = createNoteListProducts(newInitialNotes);
 
 const addListItem = (listRef, note) => {
   const addNotes = productTamplate(note);
@@ -29,7 +38,7 @@ const handelSubmitForm = e => {
   e.preventDefault();
   const [input, textarea] = e.target.elements;
   if (input.value === '' || textarea.value === '') {
-    return notyf.alert('Необходимо заполнить все поля!');
+    return notyf.alert(NOTIFICATION_MESSAGES.EDITOR_FIELDS_EMPTY);
   }
 
   const item = notepad.saveNote(input.value, textarea.value);
@@ -37,7 +46,7 @@ const handelSubmitForm = e => {
 
   MicroModal.close('note-editor-modal');
 
-  notyf.confirm('Заметка успешно добавлена!');
+  notyf.confirm(NOTIFICATION_MESSAGES.NOTE_ADDED_SUCCESS);
   e.currentTarget.reset();
 };
 
@@ -46,6 +55,7 @@ const removeListItem = element => {
   const id = parentNode.dataset.id;
   notepad.deleteNote(id); //удалили заметку из модели.
   parentNode.remove(); // удаляем саму заметку из DOM.
+  notyf.confirm(NOTIFICATION_MESSAGES.NOTE_DELETED_SUCCESS);
 };
 
 const handleDeleteListItem = ({ target }) => {
@@ -74,8 +84,6 @@ const handelFilterItems = e => {
 const handelShowForm = e => {
   MicroModal.show('note-editor-modal');
 };
-
-// renderNoteList(refs, initialNotes);
 
 refs.nodeList.addEventListener('click', handleDeleteListItem);
 refs.noteEditorForm.addEventListener('submit', handelSubmitForm);

@@ -38,7 +38,7 @@ export default class Notepad {
       id: Notepad.generateUniqueId(),
       title: title,
       body: text,
-      priority: PRIORITY_TYPES.LOW,
+      priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW),
     };
 
     this.notes.push(item);
