@@ -78,7 +78,8 @@ const handelFilterItems = e => {
   const inputValue = e.target.value;
   const filterNote = notepad.filterNotes(inputValue);
 
-  createNoteListProducts(filterNote);
+  refs.nodeList.innerHTML = '';
+  refs.nodeList.innerHTML = createNoteListProducts(filterNote);
 };
 
 const handelShowForm = e => {
