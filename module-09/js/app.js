@@ -20,46 +20,23 @@ const NOTE_ACTIONS = {
   DECREASE_PRIORITY: 'decrease-priority',
 };
 
-const generateUniqueId = () =>
-  Math.random()
-    .toString(36)
-    .substring(2, 15) +
-  Math.random()
-    .toString(36)
-    .substring(2, 15);
-
-const initialNotes = [
-  {
-    id: generateUniqueId(),
-    title: 'JavaScript essentials',
-    body:
-      'Get comfortable with all basic JavaScript concepts: variables, loops, arrays, branching, objects, functions, scopes, prototypes etc',
-    priority: PRIORITY_TYPES.HIGH,
-  },
-  {
-    id: generateUniqueId(),
-    title: 'Refresh HTML and CSS',
-    body:
-      'Need to refresh HTML and CSS concepts, after learning some JavaScript. Maybe get to know CSS Grid and PostCSS, they seem to be trending.',
-    priority: PRIORITY_TYPES.NORMAL,
-  },
-  {
-    id: generateUniqueId(),
-    title: 'Get comfy with Frontend frameworks',
-    body:
-      'First should get some general knowledge about frameworks, then maybe try each one for a week or so. Need to choose between React, Vue and Angular, by reading articles and watching videos.',
-    priority: PRIORITY_TYPES.NORMAL,
-  },
-  {
-    id: generateUniqueId(),
-    title: 'Winter clothes',
-    body:
-      "Winter is coming! Need some really warm clothes: shoes, sweater, hat, jacket, scarf etc. Maybe should get a set of sportwear as well so I'll be able to do some excercises in the park.",
-    priority: PRIORITY_TYPES.LOW,
-  },
-];
-
 class Notepad {
+  static generateUniqueId = () =>
+    Math.random()
+      .toString(36)
+      .substring(2, 15) +
+    Math.random()
+      .toString(36)
+      .substring(2, 15);
+
+  static getPriorityName(priorityId) {
+    for (const key in this.PRIORITIES) {
+      if (Number(key) === priorityId) {
+        return this.PRIORITIES[key].name;
+      }
+    }
+  }
+
   constructor(notes = []) {
     this._notes = notes;
   }
@@ -138,15 +115,38 @@ class Notepad {
     }
     return notesPriority;
   }
-
-  static getPriorityName(priorityId) {
-    for (const key in this.PRIORITIES) {
-      if (Number(key) === priorityId) {
-        return this.PRIORITIES[key].name;
-      }
-    }
-  }
 }
+
+const initialNotes = [
+  {
+    id: Notepad.generateUniqueId(),
+    title: 'JavaScript essentials',
+    body:
+      'Get comfortable with all basic JavaScript concepts: variables, loops, arrays, branching, objects, functions, scopes, prototypes etc',
+    priority: PRIORITY_TYPES.HIGH,
+  },
+  {
+    id: Notepad.generateUniqueId(),
+    title: 'Refresh HTML and CSS',
+    body:
+      'Need to refresh HTML and CSS concepts, after learning some JavaScript. Maybe get to know CSS Grid and PostCSS, they seem to be trending.',
+    priority: PRIORITY_TYPES.NORMAL,
+  },
+  {
+    id: Notepad.generateUniqueId(),
+    title: 'Get comfy with Frontend frameworks',
+    body:
+      'First should get some general knowledge about frameworks, then maybe try each one for a week or so. Need to choose between React, Vue and Angular, by reading articles and watching videos.',
+    priority: PRIORITY_TYPES.NORMAL,
+  },
+  {
+    id: Notepad.generateUniqueId(),
+    title: 'Winter clothes',
+    body:
+      "Winter is coming! Need some really warm clothes: shoes, sweater, hat, jacket, scarf etc. Maybe should get a set of sportwear as well so I'll be able to do some excercises in the park.",
+    priority: PRIORITY_TYPES.LOW,
+  },
+];
 
 Notepad.PRIORITIES = {
   0: { id: 0, value: 0, name: 'Low' },
