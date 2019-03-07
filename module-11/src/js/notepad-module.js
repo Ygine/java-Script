@@ -1,4 +1,4 @@
-import { PRIORITY_TYPES, ICON_TYPES, NOTE_ACTIONS } from './utils/constants';
+import { PRIORITY_TYPES, ICON_TYPES, NOTE_ACTIONS } from "./utils/constants";
 
 export default class Notepad {
   static generateUniqueId = () =>
@@ -38,7 +38,7 @@ export default class Notepad {
       id: Notepad.generateUniqueId(),
       title: title,
       body: text,
-      priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW),
+      priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW)
     };
 
     this.notes.push(item);
@@ -65,7 +65,7 @@ export default class Notepad {
     return this._notes.filter(
       item =>
         item.body.toLowerCase().includes(query.toLowerCase()) ||
-        item.title.toLowerCase().includes(query.toLowerCase()),
+        item.title.toLowerCase().includes(query.toLowerCase())
     );
   }
 
@@ -81,7 +81,7 @@ export default class Notepad {
 }
 
 Notepad.PRIORITIES = {
-  0: { id: 0, value: 0, name: 'Low' },
-  1: { id: 1, value: 1, name: 'Normal' },
-  2: { id: 2, value: 2, name: 'High' },
+  0: { id: 0, value: 0, name: "Low" },
+  1: { id: 1, value: 1, name: "Normal" },
+  2: { id: 2, value: 2, name: "High" }
 };
