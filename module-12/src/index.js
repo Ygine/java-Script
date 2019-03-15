@@ -20,12 +20,11 @@ const notyf = new Notyf();
 const localNotes = storage.load('notes');
 const notepad = new Notepad(localNotes ? localNotes : initialNotes);
 const newInitialNotes = [...initialNotes];
-let curentPriority = 1;
-let curentPriorityDown = 2;
 
 const fillInFormFromLocaleStorage = form => {
   const [input, textarea] = form.elements;
   const dataFromLocale = storage.load('form');
+  if (!dataFromLocale) return;
   input.value = dataFromLocale.title;
   textarea.value = dataFromLocale.body;
 };
@@ -139,6 +138,7 @@ const AddNodesInNodeList = function(value) {
 };
 
 const handelShowForm = e => {
+  fillInFormFromLocaleStorage(refs.noteEditorForm);
   MicroModal.show('note-editor-modal');
 };
 
