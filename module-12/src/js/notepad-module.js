@@ -1,5 +1,6 @@
 import { PRIORITY_TYPES, ICON_TYPES, NOTE_ACTIONS } from './utils/constants';
-
+import moment from 'moment';
+import storage from './storage';
 export default class Notepad {
   static generateUniqueId = () =>
     Math.random()
@@ -26,30 +27,38 @@ export default class Notepad {
   }
 
   findNoteById(id) {
-    for (let note of this.notes) {
-      if (note.id === id) {
-        return note;
-      }
-    }
+    return this._notes.find(note => note.id === id);
   }
 
   saveNote(title, text) {
-    const item = {
-      id: Notepad.generateUniqueId(),
-      title: title,
-      body: text,
-      priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW),
-    };
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const item = {
+          id: Notepad.generateUniqueId(),
+          title: title,
+          body: text,
+          priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW),
+          date: moment().format('LLLL'),
+        };
 
-    this.notes.push(item);
-    localStorage.setItem('notes', JSON.stringify(this._notes));
+        this.notes.push(item);
+        storage.save('notes', this._notes);
 
-    return item;
+        resolve(item);
+        reject(new Error('somting wrong!!!!'));
+      }, 1500);
+    });
   }
 
   deleteNote(id) {
-    this._notes = this._notes.filter(item => item.id !== id);
-    localStorage.setItem('notes', JSON.stringify(this._notes));
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this._notes = this._notes.filter(item => item.id !== id);
+        localStorage.setItem('notes', JSON.stringify(this._notes));
+        resolve(this._notes);
+        reject('something error');
+      }, 1000);
+    });
   }
 
   updateNoteContent(id, updatedContent) {
@@ -62,24 +71,32 @@ export default class Notepad {
     const note = this.findNoteById(id);
     if (!note) return;
     note.priority = priority;
+    storage.save('notes', this._notes);
+
+    return note;
   }
 
   filterNotes(query) {
-    return this._notes.filter(
-      item =>
-        item.body.toLowerCase().includes(query.toLowerCase()) ||
-        item.title.toLowerCase().includes(query.toLowerCase()),
-    );
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const result = this._notes.filter(
+          item =>
+            item.body.toLowerCase().includes(query.toLowerCase()) ||
+            item.title.toLowerCase().includes(query.toLowerCase()),
+        );
+        resolve(result);
+      }, 500);
+    });
   }
 
   filterByPriority(priority) {
-    const notesPriority = [];
-    for (const note of this.notes) {
-      if (note.priority === priority) {
-        notesPriority.push(note);
-      }
-    }
-    return notesPriority;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const result = this._notes.filter(item => item.priority === priority);
+        resolve(result);
+        reject(new Error('can not filtered By Priority'));
+      }, 1000);
+    });
   }
 }
 

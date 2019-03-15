@@ -1,42 +1,22 @@
+import storage from './storage';
 const wrapper = document.querySelector('[data-themcontainer]');
 const SectionButtons = document.querySelector('.thems_button');
 const buttons = document.querySelectorAll('.thems_button > button');
-const lokalTheme = localStorage.getItem('theme');
+const lokalTheme = storage.load('theme');
 
-switch (lokalTheme) {
-  case null: {
-    wrapper.classList.add('default');
-    break;
+const getLocaleTheme = lokalTheme => {
+  const myButtons = [...buttons];
+  const activeTheme = myButtons.find(btn => lokalTheme === btn.dataset.theme);
+
+  if (activeTheme) {
+    const themeName = activeTheme.dataset.theme;
+    wrapper.classList.add(themeName);
+    return;
   }
-  case 'default': {
-    wrapper.classList.add('default');
-    break;
-  }
-  case 'darken': {
-    wrapper.classList.add('darken');
-    break;
-  }
-  case 'banana': {
-    wrapper.classList.add('banana');
-    break;
-  }
-  case 'cherry': {
-    wrapper.classList.add('cherry');
-    break;
-  }
-  case 'blueberry': {
-    wrapper.classList.add('blueberry');
-    break;
-  }
-  case 'leaf': {
-    wrapper.classList.add('leaf');
-    break;
-  }
-  case 'nightsky': {
-    wrapper.classList.add('nightsky');
-    break;
-  }
-}
+  wrapper.classList.add('default');
+};
+
+getLocaleTheme(lokalTheme);
 
 const handlerSetTheme = e => {
   const btn = e.target;
@@ -52,7 +32,7 @@ const handlerSetTheme = e => {
   wrapper.classList.add(`${theme}`);
   btn.setAttribute('disabled', true);
 
-  localStorage.setItem(`theme`, `${theme}`);
+  storage.save(`theme`, `${theme}`);
 };
 
 SectionButtons.addEventListener('click', handlerSetTheme);

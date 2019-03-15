@@ -29,7 +29,15 @@
   display: flex;
   justify-content: space-between;
   padding: 8px;
-  border-top: 1px solid #d2cccd;
+}
+
+.data-create-notes {
+  font-size: 10px;
+  padding: 3px 15px;
+}
+.data-create-notes span {
+  margin-left: 10px;
+  font-weight: 600;
 }
 
 .note__section {

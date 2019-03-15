@@ -2,48 +2,61 @@
 
 $themes: (
   default: #2196f3,
-  darken: #666,
+  darken: rgb(245, 113, 6),
   banana: #f1c40f,
   cherry: #c0392b,
   blueberry: #8e44ad,
   leaf: #27ae60,
-  nightsky: #2980b9,
+  nightsky: #136ca0,
 );
 
 // Helper theme mixin
 // @param $name: name of the theme (HTML class)
 // @param $color: color of the theme
 @mixin theme($name, $color) {
+  $primary: $color;
+  $secondary: lighten(adjust-hue($color, 40), 40%);
+
   .#{$name} {
     .page-header {
-      background-color: darken($color, 10%);
+      background-color: darken($primary, 10%);
     }
 
     .note__title,
     .modal__btn {
-      color: $color;
+      color: $primary;
     }
 
     .note,
     .modal__container,
-    .note-editor {
-      background: lighten($color, 45%);
+    .note-editor,
+    .data-create-notes {
+      background: lighten($primary, 45%);
     }
 
-    .action:hover {
-      background-color: $color;
+    .note-list button.action:hover {
+      background-color: $primary;
+    }
+
+    .data-create-notes {
+      // background-color: lighten($primary, 40%);
+      background-color: $secondary;
+    }
+
+    .data-create-notes span {
+      color: darken($primary, 10%);
     }
   }
 
   [data-theme='#{$name}'] {
-    background: $color;
+    background: $primary;
 
     &:hover {
-      background: darken($color, 10%);
+      background: darken($primary, 10%);
     }
 
     &[disabled] {
-      background: desaturate($color, 40%);
+      background: desaturate($primary, 40%);
     }
   }
 }
@@ -55,29 +68,6 @@ $themes: (
 }
 
 // Default styles
-.component {
-  background: #efefef;
-  padding: 1px;
-  margin-bottom: px;
-  border-top: 7px solid;
-
-  &__heading {
-  }
-
-  &__list {
-    list-style: none;
-    padding: 0;
-    overflow: hidden;
-  }
-
-  &__list-item {
-    float: left;
-    width: 24%;
-    height: 10em;
-    margin-right: 1%;
-  }
-}
-
 .thems_button {
   display: flex;
   align-items: center;

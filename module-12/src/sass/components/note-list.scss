@@ -2,6 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+  justify-content: center;
   padding: 0;
   margin: 0;
 }
@@ -14,6 +15,6 @@
   margin-bottom: 16px;
 }
 
-.note-list__item:not(:nth-child(-n + 3)) {
-  margin-top: 16px;
-}
+// .note-list__item:not(:nth-child(-n + 3)) {
+//   margin-top: 16px;
+// }
