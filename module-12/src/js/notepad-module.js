@@ -46,7 +46,7 @@ export default class Notepad {
 
         resolve(item);
         reject(new Error('somting wrong!!!!'));
-      }, 1500);
+      }, 100);
     });
   }
 
@@ -57,7 +57,7 @@ export default class Notepad {
         localStorage.setItem('notes', JSON.stringify(this._notes));
         resolve(this._notes);
         reject('something error');
-      }, 1000);
+      }, 100);
     });
   }
 
@@ -85,7 +85,7 @@ export default class Notepad {
             item.title.toLowerCase().includes(query.toLowerCase()),
         );
         resolve(result);
-      }, 500);
+      }, 100);
     });
   }
 
@@ -95,7 +95,7 @@ export default class Notepad {
         const result = this._notes.filter(item => item.priority === priority);
         resolve(result);
         reject(new Error('can not filtered By Priority'));
-      }, 1000);
+      }, 100);
     });
   }
 }

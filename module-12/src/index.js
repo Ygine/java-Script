@@ -21,15 +21,15 @@ const localNotes = storage.load('notes');
 const notepad = new Notepad(localNotes ? localNotes : initialNotes);
 const newInitialNotes = [...initialNotes];
 
-const fillInFormFromLocaleStorage = form => {
-  const [input, textarea] = form.elements;
-  const dataFromLocale = storage.load('form');
-  if (!dataFromLocale) return;
-  input.value = dataFromLocale.title;
-  textarea.value = dataFromLocale.body;
-};
+// const fillInFormFromLocaleStorage = form => {
+//   const [input, textarea] = form.elements;
+//   const dataFromLocale = storage.load('form');
+//   if (!dataFromLocale) return;
+//   input.value = dataFromLocale.title;
+//   textarea.value = dataFromLocale.body;
+// };
 
-fillInFormFromLocaleStorage(refs.noteEditorForm);
+// fillInFormFromLocaleStorage(refs.noteEditorForm);
 
 const addPriorityName = Notes => {
   return Notes.forEach(item => {
@@ -107,15 +107,6 @@ const handleDeleteListItem = ({ target }) => {
     case NOTE_ACTIONS.EDIT:
       break;
     case NOTE_ACTIONS.INCREASE_PRIORITY:
-      // if (curentPriority === 2) {
-      //   console.log(curentPriority);
-      //   curentPriority = 0;
-      //   changePriority(target);
-      //   return;
-      // }
-      // curentPriority += 1;
-      // changePriority(target);
-
       break;
     case NOTE_ACTIONS.DECREASE_PRIORITY:
       break;
@@ -138,7 +129,7 @@ const AddNodesInNodeList = function(value) {
 };
 
 const handelShowForm = e => {
-  fillInFormFromLocaleStorage(refs.noteEditorForm);
+  // fillInFormFromLocaleStorage(refs.noteEditorForm);
   MicroModal.show('note-editor-modal');
 };
 
