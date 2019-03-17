@@ -61,7 +61,7 @@ const handelSubmitForm = e => {
     return notyf.alert(NOTIFICATION_MESSAGES.EDITOR_FIELDS_EMPTY);
   }
 
-  storage.save('form', { title: input.value, body: textarea.value });
+  // storage.save('form', { title: input.value, body: textarea.value });
 
   notepad.saveNote(input.value, textarea.value).then(value => {
     addListItem(refs.nodeList, value);
