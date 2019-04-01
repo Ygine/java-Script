@@ -46,8 +46,8 @@ export const updatePost = (id, updatePost) => {
   };
 
   return fetch(`${URL}/${id}`, opt).then(response => {
-    if (response.ok) return response.json();
+    if (response.ok) return id;
 
-    throw new Error('i cant delete ' + response.statusText);
+    throw new Error('i cant update' + response.statusText);
   });
 };

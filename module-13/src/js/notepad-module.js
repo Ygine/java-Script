@@ -40,8 +40,7 @@ export default class Notepad {
   deleteNote(id) {
     return api.deletePost(id).then(() => {
       this._notes = this._notes.filter(item => item.id !== id);
-      console.log(this._notes);
-      return this._notes;
+      return id;
     });
   }
 

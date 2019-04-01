@@ -7,7 +7,6 @@ import {
   NOTE_ACTIONS,
   PRIORITY_TYPES,
 } from './js/utils/constants';
-import * as api from './services/api';
 import Notepad from './js/notepad-module';
 import { getRefs } from './js/view';
 import './js/theme';
@@ -30,9 +29,9 @@ notepad
     console.log(err);
   });
 
-notepad
-  .updateNote(1, { title: 'super title' })
-  .then(res => console.log('redy', res));
+// notepad
+//   .updateNote(1, { title: 'super title' })
+//   .then(res => console.log('redy', res));
 
 const addListItem = (listRef, note) => {
   const addNotes = productTamplate(note);
@@ -83,7 +82,7 @@ const removeListItem = element => {
   notepad
     .deleteNote(id)
     .then(notes => {
-      AddNodesInNodeList(notes);
+      parentNode.remove();
       notyf.confirm(NOTIFICATION_MESSAGES.NOTE_DELETED_SUCCESS);
     })
     .catch(err => notyf.alert(err));
