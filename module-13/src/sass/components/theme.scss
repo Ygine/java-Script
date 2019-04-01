@@ -1,0 +1,86 @@
+// Color themes
+
+$themes: (
+  default: #2196f3,
+  darken: rgb(245, 113, 6),
+  banana: #f1c40f,
+  cherry: #c0392b,
+  blueberry: #8e44ad,
+  leaf: #27ae60,
+  nightsky: #136ca0,
+);
+
+// Helper theme mixin
+// @param $name: name of the theme (HTML class)
+// @param $color: color of the theme
+@mixin theme($name, $color) {
+  $primary: $color;
+  $secondary: lighten(adjust-hue($color, 40), 40%);
+
+  .#{$name} {
+    .page-header {
+      background-color: darken($primary, 10%);
+    }
+
+    .note__title,
+    .modal__btn {
+      color: $primary;
+    }
+
+    .note,
+    .modal__container,
+    .note-editor,
+    .data-create-notes {
+      background: lighten($primary, 45%);
+    }
+
+    .note-list button.action:hover {
+      background-color: $primary;
+    }
+
+    .data-create-notes {
+      // background-color: lighten($primary, 40%);
+      background-color: $secondary;
+    }
+
+    .data-create-notes span {
+      color: darken($primary, 10%);
+    }
+  }
+
+  [data-theme='#{$name}'] {
+    background: $primary;
+
+    &:hover {
+      background: darken($primary, 10%);
+    }
+
+    &[disabled] {
+      background: desaturate($primary, 40%);
+    }
+  }
+}
+
+// Including themes
+// By looping through the $themes map
+@each $key, $value in $themes {
+  @include theme($key, $value);
+}
+
+// Default styles
+.thems_button {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.thems_button > button {
+  border: none;
+  color: white;
+  padding: 10px;
+  border: 0.5px solid #ccc;
+  border-radius: 3px;
+  font-weight: bold;
+  margin: 2px;
+}
