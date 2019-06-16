@@ -1,5 +1,4 @@
 import './sass/main.scss';
-import axios from 'axios';
 import Notyf from 'notyf';
 import MicroModal from 'micromodal';
 import moment from 'moment';
@@ -21,8 +20,8 @@ const notepad = new Notepad();
 const renderNotes = async () => {
   try {
     const notes = await notepad.getPost();
-    const stringifyNites = notes.map(item => productTamplate(item)).join('');
-    refs.nodeList.innerHTML = stringifyNites;
+    const stringifyNotes = notes.map(item => productTamplate(item)).join('');
+    refs.nodeList.innerHTML = stringifyNotes;
   } catch (err) {
     console.log(err);
   }
@@ -59,6 +58,7 @@ const handelSubmitForm = e => {
     .catch(err => notyf.alert(err));
 
   MicroModal.close('note-editor-modal');
+  refs.noteEditorForm.removeEventListener('submit', handelSubmitForm);
   e.currentTarget.reset();
 };
 
@@ -69,7 +69,7 @@ const createNoteListProducts = products => {
 
 const AddNodesInNodeList = function(value) {
   refs.nodeList.innerHTML = '';
-  refs.nodeList.innerHTML = createNoteListProducts(value);
+  refs.nodeList.innerHTML = createNoteListProducts(value); 
 };
 
 const removeListItem = element => {
@@ -81,11 +81,84 @@ const removeListItem = element => {
     .then(notes => {
       parentNode.remove();
       notyf.confirm(NOTIFICATION_MESSAGES.NOTE_DELETED_SUCCESS);
+      renderNotes();
     })
     .catch(err => notyf.alert(err));
 };
 
-const handleDeleteListItem = ({ target }) => {
+const changePriority = (id, item) => {
+  notepad.updateNote(id, item).then(data => {
+    AddNodesInNodeList(notepad.notes);
+  });
+}
+
+const checkPriority = (action, target) => {
+  const parentNode = target.closest('.note-list__item');
+  const id = Number(parentNode.dataset.id);
+  const notePriority = notepad.findNoteById(id).priority;
+
+  if(action === "increase-priority"){
+      switch (notePriority) {
+        case "Low":
+          const item = {
+            priority: Notepad.getPriorityName(PRIORITY_TYPES.NORMAL),
+          };
+          changePriority(id, item);
+          break;
+        case "Normal":
+          const item2 = {
+              priority: Notepad.getPriorityName(PRIORITY_TYPES.HIGH),
+            };
+          changePriority(id, item2);
+          break;
+      }
+  }else{
+    switch (notePriority) {
+      case "Normal":
+        const item2 = {
+            priority: Notepad.getPriorityName(PRIORITY_TYPES.LOW),
+          };
+        changePriority(id, item2);
+        break;
+        case "High":
+            const item = {
+              priority: Notepad.getPriorityName(PRIORITY_TYPES.NORMAL),
+            };
+            changePriority(id, item);
+            break;
+    }
+  }
+}
+
+const editItem = (target) => {
+  const parentNode = target.closest('.note-list__item');
+  const id = parentNode.dataset.id;
+
+  MicroModal.show('note-editor-modal');
+
+  refs.formInput.value = parentNode.querySelector('.note__title').textContent.trim();
+  refs.formTextarea.value = parentNode.querySelector('.note__body').textContent.trim();
+
+  const handelSubmitFormUpdate = (e) => {
+    e.preventDefault();
+  
+    const item = {
+      title: refs.formInput.value,
+      body: refs.formTextarea.value,
+    };
+
+    notepad.updateNote(id, item).then(data => {
+      AddNodesInNodeList(notepad.notes);  
+    });
+
+    MicroModal.close('note-editor-modal');
+    refs.noteEditorForm.removeEventListener('submit', handelSubmitFormUpdate);
+  }
+
+  refs.noteEditorForm.addEventListener('submit', handelSubmitFormUpdate);
+}
+
+const handleDatasetAction = ({ target }) => {
   if (target.nodeName !== 'I') return;
   const action = target.closest('button').dataset.action;
 
@@ -94,10 +167,11 @@ const handleDeleteListItem = ({ target }) => {
       removeListItem(target);
       break;
     case NOTE_ACTIONS.EDIT:
+      editItem(target)
       break;
     case NOTE_ACTIONS.INCREASE_PRIORITY:
-      break;
     case NOTE_ACTIONS.DECREASE_PRIORITY:
+        checkPriority(action, target);
       break;
     default:
       console.log(false);
@@ -114,12 +188,15 @@ const handelFilterItems = e => {
     .catch(err => console.log(err));
 };
 
-const handelShowForm = e => {
+const handelShowForm = ({target}) => {
+  refs.formInput.value = "";
+  refs.formTextarea.value = "";
+
   MicroModal.show('note-editor-modal');
+  refs.noteEditorForm.addEventListener('submit', handelSubmitForm);
 };
 
-refs.nodeList.addEventListener('click', handleDeleteListItem);
-refs.noteEditorForm.addEventListener('submit', handelSubmitForm);
+refs.nodeList.addEventListener('click', handleDatasetAction);
 refs.filterNotes.addEventListener('keyup', handelFilterItems);
 refs.openEditor.addEventListener('click', handelShowForm);
 

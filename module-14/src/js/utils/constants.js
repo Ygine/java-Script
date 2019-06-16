@@ -20,6 +20,7 @@ export const ICON_TYPES = {
 export const NOTE_ACTIONS = {
   DELETE: 'delete-note',
   EDIT: 'edit-note',
+  OPENEDITOR: 'open-editor',
   INCREASE_PRIORITY: 'increase-priority',
   DECREASE_PRIORITY: 'decrease-priority',
 };

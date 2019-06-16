@@ -2,10 +2,11 @@ import { PRIORITY_TYPES, ICON_TYPES, NOTE_ACTIONS } from './utils/constants';
 import * as api from '../services/api';
 
 export default class Notepad {
+
   static getPriorityName(priorityId) {
     for (const key in this.PRIORITIES) {
       if (Number(key) === priorityId) {
-        return this.PRIORITIES[key].name;
+        return this.PRIORITIES[key];
       }
     }
   }
@@ -21,7 +22,6 @@ export default class Notepad {
   async getPost() {
     const notes = await api.getPost();
     this._notes = notes;
-
     return this._notes;
   }
 
@@ -32,7 +32,6 @@ export default class Notepad {
   async saveNote(notes) {
     const note = await api.savePost(notes);
     this._notes.push(note);
-
     return note;
   }
 
@@ -40,7 +39,6 @@ export default class Notepad {
     try {
       await api.deletePost(id);
       this._notes = this._notes.filter(item => item.id !== id);
-
       return id;
     } catch (err) {
       throw err;
@@ -59,11 +57,13 @@ export default class Notepad {
     }
   }
 
-  updateNotePriority(id, priority) {
-    const note = this.findNoteById(id);
-    if (!note) return;
-    note.priority = priority;
-    return note;
+  async updateNotePriority(id, priority) {
+    try{
+      const changePriorityNote = await api.updatePost(id, priority);
+      return changePriorityNote;
+    }catch(err){
+      throw err;
+    }
   }
 
   async filterNotes(query) {
@@ -92,7 +92,8 @@ export default class Notepad {
 }
 
 Notepad.PRIORITIES = {
-  0: { id: 0, value: 0, name: 'Low' },
-  1: { id: 1, value: 1, name: 'Normal' },
-  2: { id: 2, value: 2, name: 'High' },
+  0: 'Low',
+  1: 'Normal',
+  2: 'High',
 };
+

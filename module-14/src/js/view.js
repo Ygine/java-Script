@@ -5,4 +5,6 @@ export const getRefs = () => ({
   filterNotes: document.querySelector('.search-form__input'),
   openEditor: document.querySelector('.material-icons'),
   dateCreateNote: document.querySelector('span .date'),
+  formInput: document.querySelector('.micromodal-slide input'),
+  formTextarea: document.querySelector('.micromodal-slide textarea'),
 });
