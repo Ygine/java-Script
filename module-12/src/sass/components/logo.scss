@@ -24,3 +24,13 @@
 .logo__image {
   margin-right: 4px;
 }
+
+.logo_text{
+  display: none;
+}
+
+@media(min-width: 600px){
+  .logo_text{
+    display: block;
+  }
+}

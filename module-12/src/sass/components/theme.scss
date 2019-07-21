@@ -38,6 +38,10 @@ $themes: (
       background-color: $primary;
     }
 
+    .setting_btn svg{
+      fill: $secondary;
+    }
+
     .data-create-notes {
       // background-color: lighten($primary, 40%);
       background-color: $secondary;

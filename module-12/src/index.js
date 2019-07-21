@@ -1,13 +1,12 @@
 import './sass/main.scss';
 import Notyf from 'notyf';
 import MicroModal from 'micromodal';
-import moment from 'moment';
 import {
   NOTIFICATION_MESSAGES,
   NOTE_ACTIONS,
   PRIORITY_TYPES,
+  EVENT_SUBMIT
 } from './js/utils/constants';
-import initialNotes from './assets/notes.json';
 import Notepad from './js/notepad-module';
 import { getRefs } from './js/view';
 import './js/theme';
@@ -18,27 +17,7 @@ import productTamplate from './templates/product.hbs';
 const refs = getRefs();
 const notyf = new Notyf();
 const localNotes = storage.load('notes');
-const notepad = new Notepad(localNotes ? localNotes : initialNotes);
-const newInitialNotes = [...initialNotes];
-
-// const fillInFormFromLocaleStorage = form => {
-//   const [input, textarea] = form.elements;
-//   const dataFromLocale = storage.load('form');
-//   if (!dataFromLocale) return;
-//   input.value = dataFromLocale.title;
-//   textarea.value = dataFromLocale.body;
-// };
-
-// fillInFormFromLocaleStorage(refs.noteEditorForm);
-
-const addPriorityName = Notes => {
-  return Notes.forEach(item => {
-    item.priority = Notepad.getPriorityName(item.priority);
-    item.date = moment().format('LLLL');
-  });
-};
-
-addPriorityName(newInitialNotes);
+const notepad = new Notepad(localNotes ? localNotes : []);
 
 const createNoteListProducts = products => {
   const marcup = products.map(item => productTamplate(item)).join('');
@@ -46,13 +25,41 @@ const createNoteListProducts = products => {
 };
 
 refs.nodeList.innerHTML = localNotes
-  ? createNoteListProducts(localNotes)
-  : createNoteListProducts(newInitialNotes);
+  ? createNoteListProducts(localNotes) : null;
 
 const addListItem = (listRef, note) => {
   const addNotes = productTamplate(note);
   listRef.insertAdjacentHTML('beforeend', addNotes);
 };
+
+const editItem = (target) => {
+  const parentNode = target.closest('.note-list__item');
+  const id = parentNode.dataset.id;
+  const title = parentNode.querySelector('.note__title').textContent.trim();
+  const body = parentNode.querySelector('.note__body').textContent.trim();
+  
+  MicroModal.show('note-editor-modal2');
+
+  refs.formInput.value = title;
+  refs.formTextarea.value = body;
+
+  const handelSubmitFormUpdate = (e) => {
+    e.preventDefault();
+    
+    const item = {
+      title: refs.formInput.value,
+      body: refs.formTextarea.value
+    };
+
+    notepad.updateNoteContent(id, item).then(notes => {
+      AddNodesInNodeList(notes);
+    });
+
+    MicroModal.close('note-editor-modal2');
+  }
+
+  refs.noteEditorForm2.addEventListener('submit', handelSubmitFormUpdate);
+}
 
 const handelSubmitForm = e => {
   e.preventDefault();
@@ -60,8 +67,6 @@ const handelSubmitForm = e => {
   if (input.value === '' || textarea.value === '') {
     return notyf.alert(NOTIFICATION_MESSAGES.EDITOR_FIELDS_EMPTY);
   }
-
-  // storage.save('form', { title: input.value, body: textarea.value });
 
   notepad.saveNote(input.value, textarea.value).then(value => {
     addListItem(refs.nodeList, value);
@@ -72,31 +77,57 @@ const handelSubmitForm = e => {
   e.currentTarget.reset();
 };
 
-const removeListItem = element => {
-  const parentNode = element.closest('.note-list__item');
+const removeListItem = target => {
+  const parentNode = target.closest('.note-list__item');
   const id = parentNode.dataset.id;
+
   notepad
     .deleteNote(id)
     .then(result => {
-      AddNodesInNodeList(result);
+      parentNode.remove();
       notyf.confirm(NOTIFICATION_MESSAGES.NOTE_DELETED_SUCCESS);
     })
     .catch(err => console.log(err));
 };
 
-// const changePriority = increaseNotePriority => {
-//   const element = increaseNotePriority.closest('.note-list__item');
-//   const id = element.dataset.id;
-//   const priority = ['Low', 'Normal', 'Hight'];
+const changePriority = (id, item) => {
+  notepad.updateNotePriority(id, item).then(notes => {
+    AddNodesInNodeList(notes);
+  });
+}
 
-//   notepad.updateNotePriority(id, priority[curentPriority]);
+const checkPriority = (action, target) => {
+  const parentNode = target.closest('.note-list__item');
+  const id = parentNode.dataset.id;
 
-//   refs.nodeList.innerHTML = localNotes
-//     ? createNoteListProducts(localNotes)
-//     : createNoteListProducts(newInitialNotes);
-// };
+  const notePriority = notepad.findNoteById(id).priority;
 
-const handleDeleteListItem = ({ target }) => {
+  if (action === "increase-priority") {
+    switch (notePriority) {
+      case "Low":
+        const normName = Notepad.getPriorityName(PRIORITY_TYPES.NORMAL);
+        changePriority(id, normName);
+        break;
+      case "Normal":
+        const nameHigh = Notepad.getPriorityName(PRIORITY_TYPES.HIGH);
+        changePriority(id, nameHigh);
+        break;
+    }
+  } else {
+    switch (notePriority) {
+      case "Normal":
+        const priority1 = Notepad.getPriorityName(PRIORITY_TYPES.LOW);
+        changePriority(id, priority1);
+        break;
+      case "High":
+        const priority2 = Notepad.getPriorityName(PRIORITY_TYPES.NORMAL);
+        changePriority(id, priority2);
+        break;
+    }
+  }
+}
+
+const handleDatasetAction = ({ target }) => {
   if (target.nodeName !== 'I') return;
   const action = target.closest('button').dataset.action;
 
@@ -105,12 +136,13 @@ const handleDeleteListItem = ({ target }) => {
       removeListItem(target);
       break;
     case NOTE_ACTIONS.EDIT:
+      editItem(target);
       break;
     case NOTE_ACTIONS.INCREASE_PRIORITY:
-      break;
     case NOTE_ACTIONS.DECREASE_PRIORITY:
+      checkPriority(action, target);
       break;
-    default:
+    default:  
       console.log(false);
   }
 };
@@ -123,18 +155,17 @@ const handelFilterItems = e => {
     .then(res => console.log(res));
 };
 
-const AddNodesInNodeList = function(value) {
+const AddNodesInNodeList = function (value) {
   refs.nodeList.innerHTML = '';
   refs.nodeList.innerHTML = createNoteListProducts(value);
 };
 
-const handelShowForm = e => {
-  // fillInFormFromLocaleStorage(refs.noteEditorForm);
+const handelShowForm = (e) => {
   MicroModal.show('note-editor-modal');
+  refs.noteEditorForm.addEventListener('submit', handelSubmitForm);
 };
 
-refs.nodeList.addEventListener('click', handleDeleteListItem);
-refs.noteEditorForm.addEventListener('submit', handelSubmitForm);
+refs.nodeList.addEventListener('click', handleDatasetAction);
 refs.filterNotes.addEventListener('keyup', handelFilterItems);
 refs.openEditor.addEventListener('click', handelShowForm);
 

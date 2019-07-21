@@ -1,5 +1,12 @@
 .container {
   padding-left: 8px;
   padding-right: 8px;
-  min-width: 320px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+@media(min-width: 648px){
+  .modal__container{
+    width: 100%;
+  }
 }
