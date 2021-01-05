@@ -39,7 +39,7 @@
     "webpackbar": "^3.1.4"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "handlebars": "^4.1.0",
     "micromodal": "^0.3.2",
     "moment": "^2.24.0",
